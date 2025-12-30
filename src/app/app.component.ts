@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { HeroComponent } from "./hero/hero.component";
@@ -18,7 +18,6 @@ import { FooterComponent } from "./footer/footer.component";
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     imports: [
-        CommonModule,
         RouterOutlet,
         HeaderComponent,
         HeroComponent,
