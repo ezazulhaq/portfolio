@@ -16,7 +16,7 @@ A modern, accessible, and high-performance developer portfolio website built wit
   - Synchronized form validation states matching native `:user-invalid` and `aria-errormessage`.
   - Visible focus rings (`:focus-visible`) across all interactive elements.
 - **Categorized Technical Skills Matrix**: Grouped by domain (*Backend & Microservices*, *Frontend & UI*, *Cloud & DevOps*, *Database & Integrations*) with proficiency tags and animated progress bars.
-- **Interactive Experience & Project Showcase**: Detailed timeline covering 10+ years of enterprise engineering (Genpact, TCS) with technology pills, production links, and printable summary.
+- **Interactive Experience & Project Showcase**: Detailed timeline covering 10+ years of enterprise engineering (Genpact, TCS) alongside featured live production projects including [The Taqwa Tracker](https://thetaqwatracker.com/) (an AI-powered Islamic companion PWA), [HAA Enterprises](https://haaenterprises.web.app), and [Madarasa Al-Jamiya](https://aljamiyadarulsuffa.web.app).
 - **Interactive Contact Workflow**: Direct links for phone, email, and Google Maps, paired with an accessible contact form supporting instant email client launch and clipboard copying.
 - **Mobile-First Responsive Design**: Fluid layout styled with SCSS, Bootstrap 5, custom CSS variables, and sleek custom scrollbars.
 
