@@ -2,32 +2,42 @@
 # Footer
 --------------------------------------------------------------*/
 #footer {
-    padding: 15px;
-    color: #f4f6fd;
-    font-size: 14px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 300px;
-    z-index: 9999;
-    background: #040b14;
-}
+  padding: 30px 15px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  background: #040b14;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 10;
+  transition: all 0.5s ease-in-out;
 
-#footer .copyright {
-    text-align: center;
-}
+  @media (min-width: 1200px) {
+    margin-left: 300px;
+  }
 
-#footer .credits {
-    padding-top: 5px;
-    text-align: center;
-    font-size: 13px;
-    color: #eaebf0;
-}
+  .copyright {
+    color: #e2e8f0;
+    font-size: 0.875rem;
 
-@media (max-width: 1199px) {
-    #footer {
-        position: static;
-        width: auto;
-        padding-right: 20px 15px;
+    strong {
+      color: #38bdf8;
     }
+  }
+
+  .credits {
+    font-size: 0.85rem;
+    color: #94a3b8;
+
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #7dd3fc;
+        text-decoration: underline;
+      }
+    }
+  }
 }

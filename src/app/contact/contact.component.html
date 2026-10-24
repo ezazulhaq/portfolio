@@ -2,77 +2,191 @@
 <section id="contact" class="contact">
     <div class="container">
 
-        <div class="section-title">
-            <h2>Contact</h2>
+        <div class="section-title" data-aos="fade-up">
+            <h2>Get In Touch</h2>
+            <p>Interested in collaborating, hiring for a lead role, consulting on microservices/cloud architecture, or have a question? Feel free to reach out directly or send a message below.</p>
         </div>
 
-        <div class="row" data-aos="fade-in">
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
 
+            <!-- Contact Information Sidebar -->
             <div class="col-lg-5 d-flex align-items-stretch">
-                <div class="info">
-                    <div class="address">
-                        <i class="bi bi-geo-alt"></i>
-                        <h4>Location:</h4>
-                        <p>Marol Naka, Andheri(E), Mumbai, India, 400059</p>
+                <div class="info-card">
+                    <div class="info-item">
+                        <div class="icon-box">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Location</h4>
+                            <p>
+                                <a href="https://maps.google.com/?q=Marol+Naka+Andheri+East+Mumbai+400059" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                    Marol Naka, Andheri (E), Mumbai, India 400059
+                                    <i class="bi bi-box-arrow-up-right small ms-1"></i>
+                                </a>
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="email">
-                        <i class="bi bi-envelope"></i>
-                        <h4>Email:</h4>
-                        <p>ezazulhaq.it&commat;gmail.com</p>
+                    <div class="info-item">
+                        <div class="icon-box">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Email</h4>
+                            <p>
+                                <a href="mailto:ezazulhaq.it@gmail.com" class="contact-link">
+                                    ezazulhaq.it@gmail.com
+                                </a>
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="phone">
-                        <i class="bi bi-phone"></i>
-                        <h4>Call:</h4>
-                        <p>+91 9930800797</p>
+                    <div class="info-item">
+                        <div class="icon-box">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Phone / WhatsApp</h4>
+                            <p>
+                                <a href="tel:+919930800797" class="contact-link">
+                                    +91 9930800797
+                                </a>
+                            </p>
+                        </div>
                     </div>
 
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d651.2984272680527!2d72.8799472719743!3d19.106099813304258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1706967265783!5m2!1sen!2sin"
-                        title="Google Maps Marol Naka, Mumbai"
-                        style="border:0; width: 100%; height: 290px;"
-                        allowfullscreen></iframe>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d651.2984272680527!2d72.8799472719743!3d19.106099813304258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1706967265783!5m2!1sen!2sin"
+                            title="Google Map location showing Marol Naka, Mumbai, India"
+                            loading="lazy"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
-
             </div>
 
-            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-                <form class="php-email-form">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="name">Your Name</label>
-                            <input type="text" name="name" class="form-control"
-                                id="name"
-                                required>
+            <!-- Contact Form -->
+            <div class="col-lg-7 d-flex align-items-stretch">
+                <div class="form-card">
+                    @if (!isSubmitted) {
+                        <form (ngSubmit)="onSubmit()" #contactNgForm="ngForm" novalidate>
+                            <h3 class="form-title">Send a Direct Message</h3>
+                            <p class="form-desc text-muted mb-4">Fill out the form and I will respond to your inquiry promptly.</p>
+
+                            @if (errorMessage) {
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+                                </div>
+                            }
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact-name" class="form-label">Your Name <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="contact-name"
+                                               name="name"
+                                               [(ngModel)]="contactForm.name"
+                                               #nameInput="ngModel"
+                                               required
+                                               autocomplete="name"
+                                               placeholder="e.g. Jane Doe"
+                                               aria-errormessage="name-error">
+                                        <span id="name-error" class="field-error-msg">Please enter your name.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact-email" class="form-label">Your Email <span class="text-danger">*</span></label>
+                                        <input type="email"
+                                               class="form-control"
+                                               id="contact-email"
+                                               name="email"
+                                               [(ngModel)]="contactForm.email"
+                                               #emailInput="ngModel"
+                                               required
+                                               email
+                                               autocomplete="email"
+                                               placeholder="e.g. jane@example.com"
+                                               aria-errormessage="email-error">
+                                        <span id="email-error" class="field-error-msg">Please enter a valid email address.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="contact-subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="contact-subject"
+                                               name="subject"
+                                               [(ngModel)]="contactForm.subject"
+                                               #subjectInput="ngModel"
+                                               required
+                                               placeholder="e.g. Consulting Inquiry / Microservices Project"
+                                               aria-errormessage="subject-error">
+                                        <span id="subject-error" class="field-error-msg">Please enter a subject.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="contact-message" class="form-label">Message <span class="text-danger">*</span></label>
+                                        <textarea class="form-control"
+                                                  id="contact-message"
+                                                  name="message"
+                                                  rows="6"
+                                                  [(ngModel)]="contactForm.message"
+                                                  #messageInput="ngModel"
+                                                  required
+                                                  placeholder="Write your message or inquiry details here..."
+                                                  aria-errormessage="message-error"></textarea>
+                                        <span id="message-error" class="field-error-msg">Please enter your message.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" class="btn btn-send-message" [disabled]="isSubmitting">
+                                        @if (isSubmitting) {
+                                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                            <span>Sending Message...</span>
+                                        } @else {
+                                            <i class="bi bi-send-fill me-2"></i>
+                                            <span>Send Message</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    } @else {
+                        <div class="submission-success-panel text-center" role="status" aria-live="polite">
+                            <div class="success-icon-wrapper mb-3">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                            <h3 class="success-title">Message Prepared!</h3>
+                            <p class="success-message text-muted mb-4">
+                                Thank you, <strong>{{ contactForm.name }}</strong>! Your inquiry regarding <em>"{{ contactForm.subject }}"</em> has been prepared. You can immediately launch your default email client to send it directly, or copy the details to your clipboard.
+                            </p>
+
+                            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                                <button type="button" class="btn btn-primary" (click)="openEmailClient()">
+                                    <i class="bi bi-envelope-open-fill me-2"></i> Open in Email Client
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" (click)="copyDetails()">
+                                    <i class="bi" [class.bi-clipboard]="!copySuccess" [class.bi-clipboard-check]="copySuccess"></i>
+                                    <span class="ms-2">{{ copySuccess ? 'Copied to Clipboard!' : 'Copy Message' }}</span>
+                                </button>
+                            </div>
+
+                            <button type="button" class="btn btn-link btn-sm text-secondary" (click)="resetForm()">
+                                &larr; Send another message
+                            </button>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="name">Your Email</label>
-                            <input type="email" class="form-control"
-                                name="email" id="email"
-                                required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Subject</label>
-                        <input type="text" class="form-control" name="subject"
-                            id="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Message</label>
-                        <textarea class="form-control" name="message" rows="10"
-                            required></textarea>
-                    </div>
-                    <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent.
-                            Thank
-                            you!</div>
-                    </div>
-                    <div class="text-center"><button type="submit">Send
-                            Message</button></div>
-                </form>
+                    }
+                </div>
             </div>
 
         </div>
