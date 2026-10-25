@@ -1,7 +1,5 @@
-import { Component, AfterViewInit, inject, PLATFORM_ID, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, signal, NgZone, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
-declare const Typed: any;
 
 @Component({
   selector: 'app-hero',
@@ -9,32 +7,75 @@ declare const Typed: any;
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss'
 })
-export class HeroComponent implements AfterViewInit {
+export class HeroComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
-  @ViewChild('typedElement') typedElement!: ElementRef;
+  private readonly ngZone = inject(NgZone);
+  private readonly cdr = inject(ChangeDetectorRef);
 
-  ngAfterViewInit() {
+  readonly roles: string[] = [
+    'Lead Java Full-Stack Developer',
+    'Spring Boot and Microservices Architect',
+    'Angular and Frontend Engineer',
+    'Cloud and DevOps Practitioner'
+  ];
+
+  displayedRole = signal(this.roles[0]);
+
+  private roleIndex = 0;
+  private charIndex = this.roles[0].length;
+  private isDeleting = true;
+  private timeoutId: any;
+
+  ngOnInit() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    // Initialize Typed if available and not yet initialized
-    if (typeof Typed !== 'undefined' && this.typedElement) {
-      const el = this.typedElement.nativeElement;
-      if (!el.classList.contains('typed-initialized')) {
-        el.classList.add('typed-initialized');
-        const items = el.getAttribute('data-typed-items');
-        if (items) {
-          const strings = items.split(',').map((s: string) => s.trim());
-          new Typed(el, {
-            strings,
-            loop: true,
-            typeSpeed: 70,
-            backSpeed: 35,
-            backDelay: 2000
-          });
-        }
+    // Run animation outside Angular zone to prevent triggering global change detection on every tick
+    this.ngZone.runOutsideAngular(() => {
+      this.timeoutId = setTimeout(() => this.step(), 2200);
+    });
+  }
+
+  private step() {
+    const currentRole = this.roles[this.roleIndex];
+
+    if (this.isDeleting) {
+      this.charIndex--;
+      const text = currentRole.substring(0, this.charIndex);
+      this.updateText(text);
+
+      if (this.charIndex <= 0) {
+        this.isDeleting = false;
+        this.roleIndex = (this.roleIndex + 1) % this.roles.length;
+        this.timeoutId = setTimeout(() => this.step(), 350);
+        return;
       }
+      this.timeoutId = setTimeout(() => this.step(), 35);
+    } else {
+      this.charIndex++;
+      const text = currentRole.substring(0, this.charIndex);
+      this.updateText(text);
+
+      if (this.charIndex >= currentRole.length) {
+        this.isDeleting = true;
+        this.timeoutId = setTimeout(() => this.step(), 2200);
+        return;
+      }
+      this.timeoutId = setTimeout(() => this.step(), 70);
+    }
+  }
+
+  private updateText(text: string) {
+    this.ngZone.run(() => {
+      this.displayedRole.set(text);
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
   }
 }
