@@ -1,0 +1,301 @@
+<!-- Floating Launcher FAB Button -->
+<div class="twin-launcher-wrapper" [class.chat-active]="twinService.isOpen()">
+  <button
+    type="button"
+    class="twin-launcher-btn"
+    (click)="toggleChat()"
+    [attr.aria-expanded]="twinService.isOpen()"
+    aria-controls="digital-twin-dialog"
+    aria-label="Toggle Ezazul's AI Digital Twin Chat"
+  >
+    <div class="launcher-icon-inner">
+      <i class="bi" [class.bi-robot]="!twinService.isOpen()" [class.bi-x-lg]="twinService.isOpen()"></i>
+    </div>
+    <span class="online-indicator" aria-hidden="true"></span>
+    @if (twinService.hasUnread() && !twinService.isOpen()) {
+      <span class="unread-badge" aria-label="New message available"></span>
+    }
+  </button>
+  @if (!twinService.isOpen()) {
+    <div class="launcher-tooltip" (click)="toggleChat()" role="button" tabindex="0">
+      <span class="tooltip-title">Ask Ezaz's AI Twin</span>
+      <span class="tooltip-sub">Agentic AI &bull; Experience &bull; Hiring</span>
+    </div>
+  }
+</div>
+
+<!-- Digital Twin Chat Dialog / Modal -->
+<div
+  id="digital-twin-dialog"
+  class="twin-chat-card"
+  [class.open]="twinService.isOpen()"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Ezazul's AI Digital Twin"
+>
+  <!-- Card Header -->
+  <div class="twin-header">
+    <div class="twin-header-info">
+      <div class="avatar-ring">
+        <img
+          src="assets/img/profile-img.jpeg"
+          alt="Ezazul Haq Abdul"
+          class="twin-avatar"
+        />
+        <span class="status-dot-pulse" aria-hidden="true"></span>
+      </div>
+      <div>
+        <h3 class="twin-title">
+          Ezaz's Digital Twin
+          <span class="ai-badge">AI Assistant</span>
+        </h3>
+        <p class="twin-subtitle">
+          <i class="bi bi-patch-check-fill text-info"></i> Grounded on verified portfolio data
+        </p>
+      </div>
+    </div>
+
+    <div class="twin-header-actions">
+      <button
+        type="button"
+        class="icon-action-btn"
+        (click)="resetChat()"
+        title="Reset conversation"
+        aria-label="Reset conversation"
+      >
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </button>
+      <button
+        type="button"
+        class="icon-action-btn"
+        (click)="closeChat()"
+        title="Close chat"
+        aria-label="Close chat"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick Recruiter / Lead Handoff Banner -->
+  <div class="twin-banner">
+    <div class="banner-content">
+      <i class="bi bi-briefcase-fill banner-icon"></i>
+      <span>Looking to hire or consult with Ezaz?</span>
+    </div>
+    <button type="button" class="banner-cta" (click)="toggleLeadForm()">
+      {{ twinService.showLeadForm() ? 'Close Form' : 'Leave Message' }}
+    </button>
+  </div>
+
+  <!-- Messages Scroll Area -->
+  <div #chatScrollContainer class="twin-messages-container">
+
+    <!-- Message Bubble Loop -->
+    @for (msg of twinService.messages(); track msg.id) {
+      <div class="message-row" [class.user-row]="msg.role === 'user'" [class.model-row]="msg.role === 'model'">
+        @if (msg.role === 'model') {
+          <div class="bubble-avatar-wrapper">
+            <img src="assets/img/profile-img.jpeg" alt="Ezaz AI" class="bubble-avatar" />
+          </div>
+        }
+
+        <div class="message-bubble" [class.error-bubble]="msg.isError">
+          <div class="bubble-content" [innerHTML]="formatMarkdown(msg.content)"></div>
+          <div class="bubble-time">
+            {{ msg.timestamp | date:'shortTime' }}
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Live Streaming Bubble (SSE) -->
+    @if (twinService.currentStreamingText()) {
+      <div class="message-row model-row">
+        <div class="bubble-avatar-wrapper">
+          <img src="assets/img/profile-img.jpeg" alt="Ezaz AI" class="bubble-avatar" />
+        </div>
+        <div class="message-bubble streaming-bubble">
+          <div class="bubble-content" [innerHTML]="formatMarkdown(twinService.currentStreamingText())"></div>
+          <span class="streaming-cursor" aria-hidden="true">&#9646;</span>
+        </div>
+      </div>
+    }
+
+    <!-- Typing Spinner (Before first token arrives) -->
+    @if (twinService.isLoading() && !twinService.currentStreamingText()) {
+      <div class="message-row model-row">
+        <div class="bubble-avatar-wrapper">
+          <img src="assets/img/profile-img.jpeg" alt="Ezaz AI" class="bubble-avatar" />
+        </div>
+        <div class="message-bubble typing-bubble">
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span class="typing-label">Ezaz's twin is thinking...</span>
+        </div>
+      </div>
+    }
+
+    <!-- Inline Lead Capture Form -->
+    @if (twinService.showLeadForm()) {
+      <div class="lead-form-card" data-aos="fade-in">
+        <div class="lead-form-header">
+          <i class="bi bi-envelope-paper-fill text-primary"></i>
+          <h4>Send a Direct Inquiry to Ezaz</h4>
+        </div>
+        <p class="lead-form-sub">
+          Leave your contact details and project/role summary. Ezaz will get in touch with you directly!
+        </p>
+
+        @if (twinService.leadStatus()) {
+          <div class="lead-alert" [class.alert-success]="twinService.leadStatus()?.type === 'success'" [class.alert-danger]="twinService.leadStatus()?.type === 'error'">
+            {{ twinService.leadStatus()?.message }}
+          </div>
+        }
+
+        <form (ngSubmit)="submitLeadForm()" class="lead-form-fields">
+          <div class="form-group mb-2">
+            <label for="lead-name">Your Name *</label>
+            <input
+              id="lead-name"
+              type="text"
+              class="form-control"
+              [(ngModel)]="leadData.name"
+              name="name"
+              placeholder="e.g. Jane Doe"
+              required
+            />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="lead-email">Your Work Email *</label>
+            <input
+              id="lead-email"
+              type="email"
+              class="form-control"
+              [(ngModel)]="leadData.email"
+              name="email"
+              placeholder="name@company.com"
+              required
+            />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="lead-company">Company / Organization</label>
+            <input
+              id="lead-company"
+              type="text"
+              class="form-control"
+              [(ngModel)]="leadData.company"
+              name="company"
+              placeholder="e.g. Acme Corp"
+            />
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="lead-msg">Inquiry Details *</label>
+            <textarea
+              id="lead-msg"
+              class="form-control"
+              rows="3"
+              [(ngModel)]="leadData.message"
+              name="message"
+              placeholder="Tell Ezaz about the role, project, or consulting opportunity..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="lead-form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary btn-sm"
+              [disabled]="twinService.isSubmittingLead() || !leadData.name || !leadData.email || !leadData.message"
+            >
+              @if (twinService.isSubmittingLead()) {
+                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                Sending...
+              } @else {
+                <i class="bi bi-send-fill me-1"></i> Send to Ezaz
+              }
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              (click)="twinService.closeLeadForm()"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+
+    <!-- Starter Quick Prompt Chips -->
+    @if (twinService.messages().length <= 2 && !twinService.isLoading() && !twinService.showLeadForm()) {
+      <div class="starter-chips-container">
+        <span class="starter-chips-heading">
+          <i class="bi bi-stars text-warning"></i> Suggested Questions:
+        </span>
+        <div class="starter-chips-grid">
+          @for (item of starterPrompts; track item.label) {
+            <button
+              type="button"
+              class="starter-chip"
+              (click)="useStarterPrompt(item.prompt)"
+            >
+              {{ item.label }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+
+  <!-- Chat Input Footer -->
+  <div class="twin-footer">
+    <div class="input-row">
+      <button
+        type="button"
+        class="footer-lead-btn"
+        (click)="toggleLeadForm()"
+        title="Leave your contact info"
+        aria-label="Open contact form"
+      >
+        <i class="bi bi-envelope-plus"></i>
+      </button>
+
+      <textarea
+        #messageInput
+        rows="1"
+        class="chat-input"
+        placeholder="Ask Ezaz's twin anything..."
+        [(ngModel)]="userInput"
+        (keydown)="onTextareaKeydown($event)"
+        [disabled]="twinService.isLoading()"
+        maxlength="1000"
+        aria-label="Ask Ezaz's AI Digital Twin"
+      ></textarea>
+
+      <button
+        type="button"
+        class="send-btn"
+        (click)="sendCurrentMessage()"
+        [disabled]="twinService.isLoading() || !userInput.trim()"
+        title="Send message"
+        aria-label="Send message"
+      >
+        <i class="bi bi-send-fill"></i>
+      </button>
+    </div>
+
+    <div class="input-meta">
+      <span class="powered-by">Powered by Gemini 3.8 Flash &bull; Cloud Functions</span>
+      <span class="char-count">{{ userInput.length }}/1000</span>
+    </div>
+  </div>
+</div>
+
