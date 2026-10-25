@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "https://portfolio-ezaz.web.app",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}
+
