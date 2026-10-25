@@ -10,6 +10,7 @@ export interface SkillItem {
 export interface SkillCategory {
   title: string;
   icon: string;
+  featured?: boolean;
   skills: SkillItem[];
 }
 
@@ -27,13 +28,25 @@ export class SkillsComponent implements AfterViewInit {
 
   skillCategories: SkillCategory[] = [
     {
+      title: 'Generative AI & Agentic Architecture',
+      icon: 'bx bx-bot',
+      featured: true,
+      skills: [
+        { name: 'RAG (Retrieval-Augmented Generation)', level: 90, badge: 'Expert' },
+        { name: 'Model Context Protocol (MCP)', level: 90, badge: 'Expert' },
+        { name: 'Google Agent SDK & GenAI', level: 85, badge: 'Advanced' },
+        { name: 'LangChain & LangGraph', level: 85, badge: 'Advanced' },
+        { name: 'Agentic Skill Architecture & Harness', level: 90, badge: 'Expert' }
+      ]
+    },
+    {
       title: 'Backend & Microservices',
       icon: 'bx bx-server',
       skills: [
         { name: 'Java (Core & Advanced)', level: 90, badge: 'Expert' },
         { name: 'Spring Boot & Microservices', level: 95, badge: 'Expert' },
         { name: 'FastAPI', level: 75, badge: 'Proficient' },
-        { name: 'Python', level: 70, badge: 'Proficient' },
+        { name: 'Python', level: 80, badge: 'Advanced' },
         { name: 'Node.js', level: 75, badge: 'Proficient' }
       ]
     },
@@ -51,7 +64,7 @@ export class SkillsComponent implements AfterViewInit {
       icon: 'bx bx-cloud',
       skills: [
         { name: 'Amazon Web Services (AWS)', level: 85, badge: 'Advanced' },
-        { name: 'Google Cloud Platform (GCP)', level: 75, badge: 'Proficient' },
+        { name: 'Google Cloud Platform (GCP)', level: 80, badge: 'Advanced' },
         { name: 'Docker & Containers', level: 80, badge: 'Advanced' },
         { name: 'CI/CD (Jenkins, GitHub Actions)', level: 80, badge: 'Advanced' }
       ]

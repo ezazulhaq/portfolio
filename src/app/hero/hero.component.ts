@@ -13,10 +13,11 @@ export class HeroComponent implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
 
   readonly roles: string[] = [
+    'AI Engineer & Agentic Architect',
     'Lead Java Full-Stack Developer',
-    'Spring Boot and Microservices Architect',
-    'Angular and Frontend Engineer',
-    'Cloud and DevOps Practitioner'
+    'Spring Boot & Microservices Architect',
+    'Angular & Frontend Engineer',
+    'Cloud & DevOps Practitioner'
   ];
 
   displayedRole = signal(this.roles[0]);

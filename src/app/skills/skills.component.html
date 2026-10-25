@@ -4,21 +4,26 @@
 
         <div class="section-title" data-aos="fade-up">
             <h2>Technical Skills</h2>
-            <p>A comprehensive overview of my technical stack and expertise developed across 10+ years of building production-grade enterprise systems, scalable microservices, and modern web applications.</p>
+            <p>A comprehensive overview of my technical stack and expertise spanning modern Agentic AI systems, enterprise microservices architectures, cloud platforms, and responsive full-stack engineering.</p>
         </div>
 
         <div class="row g-4 skills-content" #skillsContent>
             @for (category of skillCategories; track category.title) {
-                <div class="col-lg-6" data-aos="fade-up">
-                    <div class="skill-category-card">
+                <div [class]="category.featured ? 'col-12' : 'col-lg-6'" data-aos="fade-up">
+                    <div class="skill-category-card" [class.featured-category]="category.featured">
                         <div class="category-header">
-                            <div class="category-icon-wrapper">
+                            <div class="category-icon-wrapper" [class.featured-icon]="category.featured">
                                 <i [class]="category.icon"></i>
                             </div>
-                            <h3 class="category-title">{{ category.title }}</h3>
+                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                <h3 class="category-title">{{ category.title }}</h3>
+                                @if (category.featured) {
+                                    <span class="featured-badge"><i class="bi bi-stars me-1"></i> Core Specialization</span>
+                                }
+                            </div>
                         </div>
 
-                        <div class="skills-list">
+                        <div class="skills-list" [class.featured-grid]="category.featured">
                             @for (skill of category.skills; track skill.name) {
                                 <div class="skill-item">
                                     <div class="skill-info">
@@ -32,6 +37,7 @@
                                     </div>
                                     <div class="progress-bar-wrap">
                                         <div class="progress-bar"
+                                             [class.featured-bar]="category.featured"
                                              role="progressbar"
                                              [style.width.%]="isAnimated ? skill.level : 0"
                                              [attr.aria-valuenow]="skill.level"

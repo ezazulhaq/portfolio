@@ -1,4 +1,4 @@
-# Ezazul Haq Abdul — Professional Portfolio
+# Ezazul Haq Abdul — AI Engineer, Agentic Architect & Lead Full-Stack Developer
 
 A modern, accessible, and high-performance developer portfolio website built with **Angular 21**, featuring Server-Side Rendering (SSR), Static Site Generation (Prerendering), responsive design, and smooth animations.
 
@@ -15,7 +15,7 @@ A modern, accessible, and high-performance developer portfolio website built wit
   - Accessible mobile drawer with `aria-expanded`, backdrop dismissal, and `Escape` key listeners.
   - Synchronized form validation states matching native `:user-invalid` and `aria-errormessage`.
   - Visible focus rings (`:focus-visible`) across all interactive elements.
-- **Categorized Technical Skills Matrix**: Grouped by domain (*Backend & Microservices*, *Frontend & UI*, *Cloud & DevOps*, *Database & Integrations*) with proficiency tags and animated progress bars.
+- **Categorized Technical Skills Matrix**: Grouped by domain (*Generative AI & Agentic Architecture*, *Backend & Microservices*, *Frontend & UI*, *Cloud & DevOps*, *Database & Integrations*) with proficiency tags and animated progress bars covering RAG, Model Context Protocol (MCP), Google Agent SDK, LangChain/LangGraph, and Skill Architecture & Harness.
 - **Interactive Experience & Project Showcase**: Detailed timeline covering 10+ years of enterprise engineering (Genpact, TCS) alongside featured live production projects including [The Taqwa Tracker](https://thetaqwatracker.com/) (an AI-powered Islamic companion PWA), [VividSpend](https://vividspend.chotabuziness.com) (a collaborative expense tracker & budget planner), and [Madarasa Al-Jamiya](https://aljamiyadarulsuffa.web.app).
 - **Interactive Contact Workflow**: Direct links for phone, email, and Google Maps, paired with an accessible contact form supporting instant email client launch and clipboard copying.
 - **Mobile-First Responsive Design**: Fluid layout styled with SCSS, Bootstrap 5, custom CSS variables, and sleek custom scrollbars.
@@ -26,11 +26,13 @@ A modern, accessible, and high-performance developer portfolio website built wit
 
 | Layer | Technology |
 |---|---|
+| **AI & Agentic Systems** | RAG, Model Context Protocol (MCP), Google Agent SDK, LangChain & LangGraph, Agentic Skill Architecture & Harness |
 | **Framework** | [Angular 21](https://angular.dev/) (Standalone Components, Signals & Change Detection) |
 | **Rendering** | `@angular/ssr` with Express.js server & static pre-rendering |
+| **Backend & Cloud** | Java 21, Spring Boot, FastAPI, Python, Docker, Kubernetes, AWS, GCP, Cloud Firestore |
 | **Styling** | SCSS, [Bootstrap 5.3](https://getbootstrap.com/), CSS Custom Properties |
 | **Icons** | [Bootstrap Icons](https://icons.getbootstrap.com/), [Boxicons](https://boxicons.com/) |
-| **Animations** | [AOS (Animate On Scroll)](https://michalsnik.github.io/aos/), [Typed.js](https://github.com/mattboldt/typed.js/) |
+| **Animations** | [AOS (Animate On Scroll)](https://michalsnik.github.io/aos/) |
 | **Hosting & CI/CD** | [Firebase Hosting](https://firebase.google.com/docs/hosting) |
 
 ---
