@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, PLATFORM_ID, signal, NgZone, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { DigitalTwinService } from '../digital-twin/digital-twin.service';
 
 @Component({
   selector: 'app-hero',
@@ -11,6 +12,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly twinService = inject(DigitalTwinService);
 
   readonly roles: string[] = [
     'AI Engineer & Agentic Architect',
@@ -72,6 +74,10 @@ export class HeroComponent implements OnInit, OnDestroy {
       this.displayedRole.set(text);
       this.cdr.markForCheck();
     });
+  }
+
+  openAiTwin(): void {
+    this.twinService.openChat();
   }
 
   ngOnDestroy() {

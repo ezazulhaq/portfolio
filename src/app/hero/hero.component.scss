@@ -111,6 +111,25 @@
     }
   }
 
+  .btn-hero-ai {
+    background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+
+    &:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #4f46e5 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(99, 102, 241, 0.5);
+      color: #ffffff;
+    }
+
+    &:focus-visible {
+      outline: 3px solid #38bdf8;
+      outline-offset: 3px;
+    }
+  }
+
   .btn-hero-primary {
     background-color: #0284c7;
     color: #ffffff;
