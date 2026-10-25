@@ -73,8 +73,8 @@
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  right: 20px;
-  bottom: 20px;
+  right: 28px;
+  bottom: 96px;
   z-index: 9995;
   background: #0284c7;
   width: 44px;
@@ -109,6 +109,13 @@
   &.active {
     visibility: visible;
     opacity: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .back-to-top {
+    right: 20px;
+    bottom: 84px;
   }
 }
 
