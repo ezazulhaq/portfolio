@@ -8,6 +8,7 @@ A modern, accessible, and high-performance developer portfolio website built wit
 
 ## Key Features
 
+- **Interactive AI Digital Twin Chatbot**: Real-time conversational counterpart powered by **Google Gemini 3.8 Flash** and **Firebase Cloud Functions (v2)** with Server-Sent Events (SSE) streaming. Grounded in Ezazul's verified 10+ years of enterprise experience, live applications, and technical proficiencies, featuring starter prompt suggestions, markdown rendering, and direct recruiter lead capture to Cloud Firestore.
 - **Angular 21 Application Builder**: Built using the modern `@angular/build:application` toolchain with prerendering and SSR.
 - **Server-Side Rendering (SSR) & Prerendering**: Fast initial load times, zero layout shifts, and SEO-optimized static HTML generation.
 - **Accessibility First (WCAG 2.1 AA Compliant)**:
@@ -26,6 +27,7 @@ A modern, accessible, and high-performance developer portfolio website built wit
 
 | Layer | Technology |
 |---|---|
+| **AI Digital Twin** | Google Gemini 3.8 Flash (`@google/genai`), SSE Streaming, Cloud Firestore, Firebase Cloud Functions v2 |
 | **AI & Agentic Systems** | RAG, Model Context Protocol (MCP), Google Agent SDK, LangChain & LangGraph, Agentic Skill Architecture & Harness |
 | **Framework** | [Angular 21](https://angular.dev/) (Standalone Components, Signals & Change Detection) |
 | **Rendering** | `@angular/ssr` with Express.js server & static pre-rendering |
@@ -109,7 +111,7 @@ npm test
 
 ## Deployment
 
-The application is deployed on Firebase Hosting:
+The application is deployed on Firebase Hosting and Firebase Cloud Functions v2:
 
 1. Install the Firebase CLI (if not already installed):
    ```bash
@@ -119,11 +121,17 @@ The application is deployed on Firebase Hosting:
    ```bash
    firebase login
    ```
-3. Build and deploy in a single command:
+3. Configure the Gemini API Key secret in Firebase Secret Manager:
+   ```bash
+   firebase functions:secrets:set GEMINI_API_KEY
+   ```
+   *(Enter your Google Gemini API key when prompted)*
+
+4. Build and deploy both frontend and functions in a single command:
    ```bash
    npm run deploy
    ```
-   *(Runs `ng build && firebase deploy`)*
+   *(Runs `npm run build:all && firebase deploy`)*
 
 ---
 
@@ -132,9 +140,18 @@ The application is deployed on Firebase Hosting:
 ```
 portfolio/
 ├── angular.json                 # Angular build, prerender, and serve configurations
-├── firebase.json                # Firebase Hosting rewrites and deployment rules
+├── firebase.json                # Firebase Hosting rewrites and Cloud Function definitions
 ├── package.json                 # Dependencies and npm scripts
 ├── server.ts                    # Express.js server entry for SSR
+├── functions/                   # Firebase Cloud Functions (v2) for Digital Twin
+│   ├── package.json             # Functions dependencies (@google/genai, firebase-admin)
+│   ├── tsconfig.json            # Functions TypeScript compiler options
+│   └── src/
+│       ├── index.ts             # Express API entry with CORS & routing
+│       ├── chatHandler.ts       # SSE streaming chat pipeline with Gemini 3.8 Flash
+│       ├── leadHandler.ts       # Cloud Firestore recruiter/visitor lead persistence
+│       ├── profileContext.ts    # Curated grounding corpus for Ezazul's Digital Twin
+│       └── security.ts          # Origin validation, rate limiting & input sanitization
 ├── src/
 │   ├── index.html               # Main HTML entry with SEO and Google Fonts
 │   ├── main.ts                  # Client bootstrap entry
@@ -142,8 +159,9 @@ portfolio/
 │   ├── styles.scss              # Global styles, variables, scrollbar, focus states
 │   ├── app/
 │   │   ├── app.component.*      # Root component, skip-link, mobile drawer & back-to-top
+│   │   ├── digital-twin/        # AI Digital Twin floating FAB, drawer widget & service
 │   │   ├── header/              # Sidebar header, navigation links & social icons
-│   │   ├── hero/                # Hero section with role typing animation & CTAs
+│   │   ├── hero/                # Hero section with role typing animation & CTAs (incl. Ask AI Twin)
 │   │   ├── about/               # Bio, career metrics, and quick contact details
 │   │   ├── skills/              # Categorized skills matrix & progress bars
 │   │   ├── resume/              # Professional experience, projects, education & print CTA

@@ -5,10 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:functions": "npm run build --prefix functions",
+    "build:all": "ng build && npm run build:functions",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs",
-    "deploy": "ng build && firebase deploy"
+    "deploy": "npm run build:all && firebase deploy"
   },
   "private": true,
   "dependencies": {
