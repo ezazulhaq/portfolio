@@ -168,18 +168,22 @@ How can I help you today? You can select a quick question below or ask me anythi
               continue;
             }
 
+            let parsed: any = null;
             try {
-              const parsed = JSON.parse(dataStr);
-              if (parsed.text) {
-                accumulatedText += parsed.text;
-                this.currentStreamingText.set(accumulatedText);
-              }
-              if (parsed.error) {
-                throw new Error(parsed.error);
-              }
+              parsed = JSON.parse(dataStr);
             } catch (err: any) {
               if (err.message && err.message !== 'Unexpected end of JSON input') {
                 console.warn('SSE line parse error:', err);
+              }
+            }
+
+            if (parsed) {
+              if (parsed.error) {
+                throw new Error(parsed.error);
+              }
+              if (parsed.text) {
+                accumulatedText += parsed.text;
+                this.currentStreamingText.set(accumulatedText);
               }
             }
           } else if (trimmed.startsWith('event: error')) {

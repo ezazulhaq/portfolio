@@ -3,8 +3,8 @@ import { GoogleGenAI } from '@google/genai';
 import { EZAZ_PROFILE_CONTEXT } from './profileContext';
 import { checkRateLimit, validateChatPayload } from './security';
 
-const DEFAULT_MODEL = process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite';
-const FALLBACK_MODELS = ['gemini-2.5-flash-lite'];
+const DEFAULT_MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+const FALLBACK_MODELS = ['gemini-3.1-flash-lite', 'gemini-3.5-flash-lite'];
 
 /**
  * Handles streaming chat interactions with Gemini for Ezazul's Digital Twin
